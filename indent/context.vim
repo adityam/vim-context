@@ -82,8 +82,7 @@ function GetTeXIndent()
   " command 
   " or the previous line ends in a '[' add a shiftwidth
   " (Sometimes the code is more clear than comments)
-  if (cline =~ '^\s*\[' && line =~'\\\w\+\s*$'
-    || line=~'\[\s*%*\s*$'
+  if (cline =~ '^\s*\[' && line =~'\\\w\+\s*$') || line=~'\[\s*%*\s*$'
     let ind = ind + &sw
   endif
 
