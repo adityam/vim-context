@@ -81,7 +81,7 @@ syn match   contextBuiltin    '\\\%([lr]q\)\>'
 
 syn match   contextPreProc    '^\s*\\\%(component\|environment\|\%(start\|stop\)environment\|project\|product\).*$'
 
-syn match   contextIdentifier    '\\\%(setup\|define\|use\|enable\|setvariables\)\a*\_s*'
+syn match   contextIdentifier    '\\\%(setup\|define\|use\|enable\|disable\|setvariables\)\a*\_s*'
                               \ nextgroup=contextArgument
 
 syn match   contextPreProc    '^\s*\\input\s\+.*$' 
@@ -130,7 +130,7 @@ unlet b:current_syntax
 
 
 syn region  metapost  matchgroup=contextIdentifier 
-                      \ start='\\start\z(\%(use\|reusabe\|usable\|unique\|static\)\=MP\%(code\|page\|inclusions\|graphic\|drawing\|run\|figure\|initializations\)\)'
+                      \ start='\\start\z(\%(use\|reusabe\|usable\|unique\|static\)\=MP\%(code\|page\|inclusions\|graphic\|drawing\|run\|figure\|initializations\|definitions\)\)'
                       \ end='\\stop\z1'
                       \ contains=@METAPOST
 
