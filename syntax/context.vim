@@ -125,7 +125,7 @@ syn match   contextFont       '\\\%(tf\|b[fsi]\|s[cl]\|it\|os\)\%(\|[xabcd]\|xx\
 
 syn match   contextDimension  '[+-]\=\s*\%(\d\+\%([.,]\d*\)\=\|[.,]\d\+\)\s*\%(true\)\=\s*\%(p[tc]\|in\|bp\|c[mc]\|mm\|dd\|sp\|e[mx]\)\>'
 
-syn include @METAPOST syntax/mp.vim
+syn include @METAPOST syntax/metafun.vim
 unlet b:current_syntax
 
 
