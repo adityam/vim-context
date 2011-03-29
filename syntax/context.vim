@@ -17,7 +17,7 @@ syn match  contextComment    '\\\@!%.*' display contains=contextTodo
 
 syn match  contextComment    '^%[CDM]\s.*' contains=ALLBUT,contextComment,contextArgument contains=@Spell
 
-syn match   contextStatement  display '\\[a-zA-Z@!]\+'
+syn match   contextStatement  display '\\[a-zA-Z@!_:]\+'
 
 syn match   contextBlockDelim display '\\\%(start\|stop\|place\)\a\+\_s*' nextgroup=contextArgument
 
@@ -81,7 +81,7 @@ syn match   contextBuiltin    '\\\%([lr]q\)\>'
 
 syn match   contextPreProc    '^\s*\\\%(component\|environment\|\%(start\|stop\)environment\|project\|product\).*$'
 
-syn match   contextIdentifier    '\\\%(setup\|define\|use\|enable\|disable\|setvariables\)\a*\_s*'
+syn match   contextIdentifier    '\\\%(setup\|define\|use\|enable\|disable\|setvariables\|setlayer\|framed\)\a*\_s*'
                               \ nextgroup=contextArgument
 
 syn match   contextPreProc    '^\s*\\input\s\+.*$' 
