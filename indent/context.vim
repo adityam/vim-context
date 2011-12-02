@@ -12,7 +12,7 @@ setlocal indentexpr=GetTeXIndent()
 setlocal nolisp
 setlocal nosmartindent
 setlocal autoindent
-setlocal indentkeys+=0=[,0=],0=\\item,0=\\head,0=\\txt,0=\\step,0=\\start,0=\Start,0=\\stop,0=\\Stop,0=\\stopitemize,0=\\NC,0=\\intertext
+setlocal indentkeys+=0=[,0=],0=\\item,0=\\head,0=\\txt,0=\\step,0=\\start,0=\Start,0=\\stop,0=\\Stop,0=\\stopitemize,0=\\NC,0=\\EQ,0=\\intertext
 
 
 " Only define the function once
@@ -24,23 +24,25 @@ endif
 function GetTeXIndent()
 
   " Find a non-blank line above the current line.
-  let lnum = prevnonblank(v:lnum - 1)
+  let lnum  = prevnonblank(v:lnum - 1)
+  let ind   = indent(lnum)
+  let line  = getline(lnum)             " last line
+  let cline = getline(v:lnum)          " current line
+
   " let lnum = v:lnum - 1
 
   " At the start of the file use zero indent.
   if v:lnum == 0 | return 0 | endif
 
-  " If there are two blank spaces, go to zero indent.
-  if v:lnum - lnum > 2 | return 0 | endif
-
-  let ind = indent(lnum)
-  let line = getline(lnum)             " last line
-  let cline = getline(v:lnum)          " current line
-
   " Do not change indentation of commented lines.
   if line =~ '^\s*%'
     return ind
   endif
+
+
+  " If there are two blank spaces, reduce indent by shift width. Useful for
+  " \placefigure etc.
+  if v:lnum - lnum > 2 | let ind = ind - &sw | endif
 
   " Add a 'shiftwidth' after beginning of environments.
   " Don't add it for \starttext, \startenvironment, \startcomponent, 
@@ -73,7 +75,7 @@ function GetTeXIndent()
         \ && line !~ '\\stopbuffer'
         \ && line !~ '\\stoplines'
     let ind = ind - &sw
-    if line =~ '\\\(NC\|NR\)\>'
+    if line =~ '\\\(NC\|EQ\|NR\)\>'
       let ind = ind - &sw*2
     endif
   endif
@@ -125,11 +127,11 @@ function GetTeXIndent()
   endif
 
   " Special treatment for 'NC'
-  if line =~ '^\s*\\NC\>' && cline !~ '^\s*\\NC\>'
+  if line =~ '^\s*\\\(NC\|EQ\)\>' && cline !~ '^\s*\\\(NC\|EQ\)\>'
     let ind = ind + &sw*2
   endif
 
-  if cline =~ '^\s*\\NC\>' && line !~ '^\s*\\\(NC\>\|start\|place\|intertext\)'
+  if cline =~ '^\s*\\\(NC\|EQ\)\>' && line !~ '^\s*\\\(NC\>\|EQ\>\|start\|place\|intertext\)'
     let ind = ind - &sw*2
   endif
 
