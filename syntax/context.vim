@@ -35,7 +35,7 @@ syn region  contextEscaped    display matchgroup=contextPreProc
                               \ start='\\type<<' end='>>'
 
 syn region  contextEscaped    extend matchgroup=contextPreProc
-                              \ start='\\start\z(\a*\%(typing\|typen\)\)'
+                              \ start='\\start\z(\a*\%(typing\|typen\|filecontents\)\)'
                               \ end='\\stop\z1' 
 "                              \ skip='^%[CDM] '
 
@@ -48,18 +48,18 @@ syn region contextArgument    matchgroup=contextDelimiter
           \ start='\_s*\[' skip='{.\{-\}].\{-}}' end=']\_s*' contained
           \ contains=contextGroup,contextComment
 
-syn match  contextSpecial     '\\\%(infull\|executesystemcommand\)' nextgroup=contextGroup
+syn match  contextSpecial     '\\\%(infull\|executesystemcommand\)\>' nextgroup=contextGroup
 
 syn region contextGroup       matchgroup=contextDelimiter 
                               \ start='{' skip='\\}' end='}' 
                               \ contained
                               \ contains=contextStatement
 
-syn region  contextMath       matchgroup=contextMath start='\$' end='\$'
-                              \ contains=contextStatement,contextIdentifier,contextSpecial,contextComment,contextMathtext,contextEscaped
+syn region  contextMath       matchgroup=contextMath start='\$' skip="\\\$" end='\$' 
+                              \ contains=contextIdentifier,contextStatement,contextComment,contextMathtext
 
 syn region  contextMath       matchgroup=contextIdentifier 
-                              \ start='\\start\z([sm][pd]\)\=formula' end='\\stop\z1formula'
+                              \ start='\\start\z([sm][pd]\)\=formula\>' end='\\stop\z1formula\>'
                               \ contains=contextIdentifier,contextStatement,contextSpecial,contextComment,contextMathtext,contextEscaped
 
 syn region contextMathtext    matchgroup=contextIdentifier 
@@ -99,7 +99,7 @@ syn match   contextSpecial    +\\char\%(\d\{1,3}\|'\o\{1,3}\|"\x\{1,2}\)\>+
 syn match   contextSpecial    '\^\^.'
 "syn match   contextSpecial    '`\%(\\.\|\^\^.\|.\)'
 
-syn match   contextSpecial    '\\NR' nextgroup=contextArgument
+syn match   contextSpecial    '\\NR\>' nextgroup=contextArgument
 syn match   contextSpecial    '\\\%(EQ\|[FMLN]C\|[HV]L\|[SFML]R\|\)\>'
 syn match   contextSpecial    '&'
 
@@ -137,16 +137,25 @@ syn region  metapost  matchgroup=contextIdentifier
 syn include @LUA syntax/lua.vim
 unlet b:current_syntax
 
-syn region luatex matchgroup=contextIdentifier
+syn region luatex matchgroup=contextidentifier
       \ start='\\startluacode'
       \ end='\\stopluacode'
       \ contains=@LUA
 
 
-syn region luatex matchgroup=contextIdentifier
+syn region tikz matchgroup=contextIdentifier
       \ start='\\starttikzpicture'
       \ end='\\stoptikzpicture'
       \ contains=contextIdentifier,contextStatement,contextSpecial,contextComment,contextMath,contextEscaped
+
+syn include @MMA syntax/mma.vim
+unlet b:current_syntax
+ 
+syn region mathematica matchgroup=contextidentifier
+      \ start='\\startmathematica'
+      \ end='\\stopmathematica'
+      \ contains=@MMA
+
 
 syn region  context  matchgroup=contextPreProc
                       \ start='\\start\z(text\|component\|product\|project\)\>.*$'
