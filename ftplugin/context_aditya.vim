@@ -1,5 +1,4 @@
 set wildignore=*.aux,*.bbl,*.blg,*.tu?,*.tmp,*.top,*.log,*.dvi,*.ps,*.pdf,*.*.bak,*-mpgraph.*,*.*.keep,*.mp?,*.1,*.2,*.3,*.*.md5,*-*.mp,*.pgf
-set encoding=utf-8
 setlocal spell
 setlocal isk=a-z,A-Z,:,!,@
 
