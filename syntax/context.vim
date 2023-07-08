@@ -134,7 +134,7 @@ syn region  metapost  matchgroup=contextIdentifier
                       \ end='\\stop\z1'
                       \ contains=@METAPOST
 
-syn include @LUA syntax/lua.vim
+syn include @LUA syntax/lmtx.vim
 unlet b:current_syntax
 
 syn region luatex matchgroup=contextidentifier
